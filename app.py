@@ -9,7 +9,7 @@ app.config['SECRET_KEY'] = 'fweiujfbweiubvfeiw'
 
 # path to sqlite database
 # need to run the following in the python3 terminal window
-# 'from app import db'
+# from models import db
 # db.create_all()
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 
