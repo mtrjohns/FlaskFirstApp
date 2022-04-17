@@ -9,6 +9,8 @@ import forms
 def index():
     return render_template('index.html', current_title='Custom Title')
 
+
+
 @app.route('/about', methods=['GET', 'POST'])
 def about():
     form = forms.AddTaskForm()
