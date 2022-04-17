@@ -27,3 +27,45 @@ def add():
         flash('Task added to the database')   
         return redirect(url_for('index'))
     return render_template('add.html', form=form)
+
+# route with information passed
+@app.route('/edit/<int:task_id>', methods=['GET', 'POST'])
+def edit(task_id):
+    task = Task.query.get(task_id)
+    form = forms.AddTaskForm()
+    
+    # check task exists
+    if task:
+        if form.validate_on_submit():
+            task.title = form.title.data
+            task.date = datetime.utcnow()
+            # Only need to commit changes as entry already exists in database
+            db.session.commit()
+            flash('Task has been updated')
+            return redirect(url_for('index'))
+        
+        form.title.data = task.title
+        return render_template('edit.html', form=form, task_id=task_id)
+    else:
+        flash('Task not found')
+    return redirect(url_for('index'))
+
+@app.route('/delete/<int:task_id>', methods=['GET', 'POST'])
+def delete(task_id):
+    task = Task.query.get(task_id)
+    form = forms.DeleteTaskForm()
+    
+    # check task exists
+    if task:
+        if form.validate_on_submit():
+            db.session.delete(task)
+            # Only need to commit changes as entry already exists in database
+            db.session.commit()
+            flash('Task has been deleted')
+            return redirect(url_for('index'))
+        
+        return render_template('delete.html', form=form, task_id=task_id, title=task.title)
+    else:
+        flash('Task not found')
+
+    return redirect(url_for('index'))
