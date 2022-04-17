@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block main %}
+
+<p>Some About Content</p>
+<form action="POST">
+    <!-- set CSRF token in every form -->
+    {{ form.csrf_token() }}
+    <!-- form variable -->
+    {{ form.title.label }}
+    {{ form.title }}
+    {{ form.submit }}
+</form>
+{% endblock %}
